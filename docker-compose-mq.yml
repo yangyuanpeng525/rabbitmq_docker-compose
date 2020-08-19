@@ -1,0 +1,26 @@
+
+version : '3.7'
+networks:
+  rabbitmq-net:
+    external: true
+services:
+  www.hymq.com:
+        container_name : mq
+        hostname: mq
+        networks:
+          rabbitmq-net:
+        image: registry.cn-hangzhou.aliyuncs.com/yangyuanpeng/rabbitmq:3.7.14-management
+        restart: on-failure
+        environment:
+          - TZ= Asia/Shanghai
+          - RABBITMQ_DEFAULT_USER=admin
+          - RABBITMQ_DEFAULT_PASS=admin123   #mq的密码
+          - RABBITMQ_DEFAULT_VHOST=gov
+        volumes:
+          - /rabbitmq/rabbitmq-data:/var/lib/rabbitmq
+          - /etc/localtime:/etc/localtime:ro
+        ports :
+          - 15672:15672
+          - 5672:5672
+
+
